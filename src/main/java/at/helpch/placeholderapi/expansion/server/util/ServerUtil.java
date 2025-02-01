@@ -1,6 +1,8 @@
 package at.helpch.placeholderapi.expansion.server.util;
 
 import io.papermc.paper.ServerBuildInfo;
+import io.papermc.paper.text.PaperComponents;
+import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import org.bukkit.Bukkit;
 
 import java.lang.reflect.Field;
@@ -22,6 +24,8 @@ public final class ServerUtil {
 
     private static final String variant;
     private static final String build;
+
+    private static double[] globalTps;
 
     static {
         variants.put("net.pl3x.purpur.PurpurConfig", "Purpur");
@@ -150,7 +154,8 @@ public final class ServerUtil {
 
     public static double[] getTps() {
         if (hasTpsMethod) {
-            return Bukkit.getTPS();
+            Bukkit.getGlobalRegionScheduler().run(PlaceholderAPIPlugin.getInstance(), task -> globalTps = Bukkit.getTPS());
+            return globalTps;
         }
 
         if (craftServer == null || tpsField == null) {

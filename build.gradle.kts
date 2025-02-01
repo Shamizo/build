@@ -8,13 +8,14 @@ version = "2.7.3"
 
 repositories {
     mavenCentral()
-    maven("https://papermc.io/repo/repository/maven-public/")
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.extendedclip.com/releases/")
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
-    compileOnly("me.clip:placeholderapi:2.11.3")
+    compileOnly("dev.folia:folia-api:1.20.4-R0.1-SNAPSHOT")
+    compileOnly("me.clip:placeholderapi:2.11.6")
 }
 
 tasks {
