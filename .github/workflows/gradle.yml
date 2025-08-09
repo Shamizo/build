@@ -7,33 +7,34 @@ on:
     branches: [ main ]
   release:
     types: [ created ]
-  workflow_dispatch:   # 手动触发功能
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     
     steps:
-    # 1. 升级所有 actions 到最新版本
-    - uses: actions/checkout@v4   # 升级到最新版
+    - uses: actions/checkout@v4
     
+    # 添加权限修复步骤
+    - name: Fix Gradle Wrapper permissions
+      run: chmod +x gradlew
+      
     - name: Set up JDK
-      uses: actions/setup-java@v3   # 升级到 v3
+      uses: actions/setup-java@v3
       with:
         java-version: '8'
-        distribution: 'temurin'    # 使用推荐的 Eclipse Temurin 发行版
+        distribution: 'temurin'
         
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew build  # 现在应该可以正常执行了
       
-    # 2. 修复弃用的 upload-artifact
     - name: Upload artifact
-      uses: actions/upload-artifact@v4   # 升级到 v4
+      uses: actions/upload-artifact@v4
       with:
         name: Plugin
         path: build/libs/*.jar
         
-    # 3. 保持 release 上传不变
     - name: Upload to release
       if: github.event_name == 'release'
       uses: softprops/action-gh-release@v1
